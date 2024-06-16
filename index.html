@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+</head>
+<body>
+    <script>
+        // JavaScript code for the game
+        console.log("Hello"); // Just a console log to check if the script is running
+
+        // Function to get computer's choice
+        function getComputerChoice() {
+            const randomNumber = Math.random();
+            if (randomNumber < 0.3) {
+                return "rock";
+            } else if (randomNumber >= 0.3 && randomNumber < 0.6) {
+                return "paper";
+            } else {
+                return "scissors";
+            }
+        }
+
+        // Function to get human's choice
+        function getHumanChoice() {
+            let choice = prompt("Enter rock, paper, or scissors");
+            if (choice !== "rock" && choice !== "paper" && choice !== "scissors") {
+                return "invalid";
+            } else {
+                return choice;
+            }
+        }
+
+        // Function to play the game
+        function playGame() {
+            let humanScore = 0;
+            let compScore = 0;
+
+            // Function to play a round
+            function playRound(human, comp) {
+                if (human === comp) {
+                    return "tie";
+                } else if (
+                    (human === "rock" && comp === "scissors") || 
+                    (human === "paper" && comp === "rock") || 
+                    (human === "scissors" && comp === "paper")
+                ) {
+                    humanScore++;
+                    return "won";
+                } else {
+                    compScore++;
+                    return "lost";
+                }
+            }
+
+            // Loop to play 5 rounds
+            for (let i = 0; i < 5; i++) {
+                const humanSelect = getHumanChoice();
+                const compSelect = getComputerChoice();
+
+                // Check if human's choice is invalid
+                if (humanSelect === "invalid") {
+                    alert("Invalid choice, please enter rock, paper, or scissors.");
+                    i--; // Decrement i to repeat the current round
+                    continue;
+                }
+
+                // Play the round and log the result
+                const result = playRound(humanSelect, compSelect);
+                console.log(`Round ${i + 1}: ${result}`);
+            }
+
+            // Determine the winner and log the result
+            if (humanScore > compScore) {
+                console.log("Congratulations! You won!");
+            } else if (compScore > humanScore) {
+                console.log("Boo! You lost!");
+            } else {
+                console.log("It's a tie!");
+            }
+        }
+
+        // Start the game
+        playGame();
+    </script>
+</body>
+</html>
