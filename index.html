@@ -55,7 +55,7 @@
             }
 
             // Loop to play 5 rounds
-            for (let i = 0; i < 5; i++) {
+           /* for (let i = 0; i < 5; i++) {
                 const humanSelect = getHumanChoice();
                 const compSelect = getComputerChoice();
 
@@ -64,7 +64,7 @@
                     alert("Invalid choice, please enter rock, paper, or scissors.");
                     i--; // Decrement i to repeat the current round
                     continue;
-                }
+                } */
 
                 // Play the round and log the result
                 const result = playRound(humanSelect, compSelect);
@@ -79,7 +79,90 @@
             } else {
                 console.log("It's a tie!");
             }
+        }<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+</head>
+<body>
+    <div class="buttons">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+    <div id="result"></div>
+    <div id="score">Human: 0, Computer: 0</div>
+    <script>
+        let humanScore = 0;
+        let compScore = 0;
+
+        // Function to get computer's choice
+        function getComputerChoice() {
+            const randomNumber = Math.random();
+            if (randomNumber < 0.33) {
+                return "rock";
+            } else if (randomNumber >= 0.33 && randomNumber < 0.66) {
+                return "paper";
+            } else {
+                return "scissors";
+            }
         }
+
+        // Function to play a round
+        function playRound(human, comp) {
+            const resultDiv = document.getElementById('result');
+            const scoreDiv = document.getElementById('score');
+
+            if (human === comp) {
+                resultDiv.textContent = `It's a tie! You both selected ${human}.`;
+            } else if (
+                (human === "rock" && comp === "scissors") || 
+                (human === "paper" && comp === "rock") || 
+                (human === "scissors" && comp === "paper")
+            ) {
+                humanScore++;
+                resultDiv.textContent = `You won this round! ${human} beats ${comp}.`;
+            } else {
+                compScore++;
+                resultDiv.textContent = `You lost this round! ${comp} beats ${human}.`;
+            }
+
+            scoreDiv.textContent = `Human: ${humanScore}, Computer: ${compScore}`;
+
+            if (humanScore === 5) {
+                resultDiv.textContent = "Congratulations! You won the game!";
+                resetGame();
+            } else if (compScore === 5) {
+                resultDiv.textContent = "Boo! You lost the game!";
+                resetGame();
+            }
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            humanScore = 0;
+            compScore = 0;
+            document.getElementById('score').textContent = `Human: 0, Computer: 0`;
+        }
+
+        // Add event listeners to the buttons
+        document.getElementById('rock').addEventListener('click', function() {
+            playRound('rock', getComputerChoice());
+        });
+
+        document.getElementById('paper').addEventListener('click', function() {
+            playRound('paper', getComputerChoice());
+        });
+
+        document.getElementById('scissors').addEventListener('click', function() {
+            playRound('scissors', getComputerChoice());
+        });
+    </script>
+</body>
+</html>
+
 
         // Start the game
         playGame();
